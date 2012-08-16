@@ -17,21 +17,10 @@ current = np.genfromtxt(nlist, dtype = None, names=['space','junk','junk', 'user
 
 last = np.genfromtxt(olist, dtype = None, names=['space','junk','junk', 'user'])
 
-# cc = 0
-# for user in current['user']:
-# 	cl = 0
-# 	if user  in  last['user']:
-# 		print '========='
-# 		print 'current: ', user, current['space'][cc], cc 
-# 		print 'last:    ', last['user'][cl], last['space'][cl], cl
-# 		percentChange = 100 * (float(current['space'][cc]) - float(last['space'][cl])) / float(last['space'][cl])
-# 		print percentChange
-# 		cl = cl + 1
-# 	else:
-# 		print '********'
-# 		print user, ' is a new user to the spacehog list.'
-# 	cc = cc + 1
-
 for row in current:
-	lastrow =  last[last['user'] == row['user']]
-	print float(100. * (lastrow['space'].astype(np.float) - row['space'])/row['space']), row['user'] 
+	if row['user'] in last['user']:
+		lastrow =  last[last['user'] == row['user']]
+		percentChange =  round(float(100. * (lastrow['space'].astype(np.float) - row['space'])/row['space']), 2)
+		if percentChange != 0.0:
+			User = row['user'].split( '/')
+			print User[2],'   \t', percentChange,  "% change."
