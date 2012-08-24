@@ -20,7 +20,8 @@ last = np.genfromtxt(olist, dtype = None, names=['space','junk','junk', 'user'])
 for row in current:
 	if row['user'] in last['user']:
 		lastrow =  last[last['user'] == row['user']]
-		percentChange =  round(float(100. * (lastrow['space'].astype(np.float) - row['space'])/row['space']), 2)
+		percentChange =  round(float(100. * (row['space'] - lastrow['space'].astype(np.float))/lastrow['space']), 2)
 		if percentChange != 0.0:
 			User = row['user'].split( '/')
-			print User[2],'   \t', percentChange,  "% change."
+#			print User[2],'   \t', percentChange,  "% change.", lastrow['space'].squeeze(), "MB"  
+			print "%s   \t %.2f%% change.  \t %i MB"  %(User[2], percentChange, lastrow['space'].squeeze())
