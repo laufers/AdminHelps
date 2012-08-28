@@ -3,18 +3,13 @@
 import subprocess
 import argparse
 import glob
+import datetime as dtg
 
-# check argument for directory else default to current directory
-
-# if len(sys.argv) < 2:
-#     dirname = "." 
-# else:
-#     dirname = sys.argv[1]
 
 parser = argparse.ArgumentParser(description='Check space of users and look for hogs.')
 parser.add_argument('dirname', metavar='DIRNAME', type=str, default='.', nargs='?', 
                     help='Directory path and glob for searching. Needs to be in quotes.')
-parser.add_argument('--sizelimit','-l', dest='sizeLimit', type=int, default= 500,
+parser.add_argument('--sizelimit','-s', dest='sizeLimit', type=int, default= 500,
                     help='size threshold in megaabytes (MB)')
 args = parser.parse_args()
 
@@ -34,5 +29,12 @@ splithogs = [(int(s[0]), s[1]) for s in splithogs if int(s[0]) > sizeLimit]
 
 splithogs.sort(reverse = True)
 
+date_string = dtg.datetime.now().strftime("%Y%m%d%H")
+fn = 'space.' + date_string + '.log'
+f = open(fn, 'w')
+
 for size,dirName in splithogs:
 	print '%d MB \t: %s' % (size/1024, dirName)
+	f.write('%d MB \t: %s\n' % (size/1024, dirName))
+
+f.close()
