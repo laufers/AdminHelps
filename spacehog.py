@@ -10,7 +10,9 @@ parser = argparse.ArgumentParser(description='Check space of users and look for 
 parser.add_argument('dirname', metavar='DIRNAME', type=str, default='.', nargs='?', 
                     help='Directory path and glob for searching. Needs to be in quotes.')
 parser.add_argument('--sizelimit','-s', dest='sizeLimit', type=int, default= 500,
-                    help='size threshold in megaabytes (MB)')
+                    help='Size threshold in megaabytes (MB)')
+parser.add_argument('--log','-l', action = 'store_true',
+                    help='Saves output to a log file.')
 args = parser.parse_args()
 
 # print args.dirname, args.sizeLimit
@@ -30,11 +32,14 @@ splithogs = [(int(s[0]), s[1]) for s in splithogs if int(s[0]) > sizeLimit]
 splithogs.sort(reverse = True)
 
 date_string = dtg.datetime.now().strftime("%Y%m%d%H")
-fn = 'space.' + date_string + '.log'
-f = open(fn, 'w')
+if args.log:
+	fn = 'space.' + date_string + '.log'
+	f = open(fn, 'w')
 
 for size,dirName in splithogs:
 	print '%d MB \t: %s' % (size/1024, dirName)
-	f.write('%d MB \t: %s\n' % (size/1024, dirName))
+	if args.log:
+		f.write('%d MB \t: %s\n' % (size/1024, dirName))
 
-f.close()
+if args.log:
+	f.close()
