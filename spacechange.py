@@ -24,4 +24,4 @@ for row in current:
 		if percentChange != 0.0:
 			User = row['user'].split( '/')
 #			print User[2],'   \t', percentChange,  "% change.", lastrow['space'].squeeze(), "MB"  
-			print "%s   \t %.2f%% change.  \t %i MB"  %(User[2], percentChange, lastrow['space'].squeeze())
+			print "%s      \t %.2f%% change.  \t current: %i MB \t old: %i MB "  %(User[2], percentChange, row['space'].squeeze(), lastrow['space'].squeeze())

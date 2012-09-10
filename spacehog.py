@@ -7,7 +7,7 @@ import datetime as dtg
 
 
 parser = argparse.ArgumentParser(description='Check space of users and look for hogs.')
-parser.add_argument('dirname', metavar='DIRNAME', type=str, default='.', nargs='?', 
+parser.add_argument('dirname', type=str, default='.', nargs='?', 
                     help='Directory path and glob for searching. Needs to be in quotes.')
 parser.add_argument('--sizelimit','-s', dest='sizeLimit', type=int, default= 500,
                     help='Size threshold in megaabytes (MB)')
